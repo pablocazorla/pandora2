@@ -1,0 +1,43 @@
+<!doctype HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Is</title>
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		
+		<!-- CSS -->
+		<link type="text/css" rel="stylesheet" href="../css/style.css">
+	</head>
+	<body>
+		<div class="page wide clearfix parallax-page">
+			<h1>Is</h1>			
+		</div>
+		<script src="../js/vendors/jquery-1.9.1.min.js"></script>
+		<script src="../js/pandora/box.js"></script>
+		<script src="../js/pandora/is.js"></script>
+		<script>
+			// App
+			PANDORA.open(function($){
+				
+				var v= 44,
+					vIs = PANDORA.is.number(v),
+					vIsNot = PANDORA.is.not.number(v),
+					vIsAny = PANDORA.is.any.number(v,12,2,68,36);
+					vIsAll = PANDORA.is.all.number([v,12,2,68,36]);
+
+				var str = 'Is: '+ vIs;
+
+				str += '<br>Is not: '+vIsNot;
+				str += '<br>Is any: '+vIsAny;
+				str += '<br>Is all: '+vIsAll;
+
+
+				$('h1').html(str);				
+			});
+		</script>
+	</body>
+</html>
