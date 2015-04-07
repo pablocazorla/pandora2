@@ -8,7 +8,11 @@ Pandora.open([
 	var U = {};
 
 	U.parseData = function(data) {
-		var obj = $.parseJSON($.trim(data.replace(/\'/g, '"')));
+		var obj = {};
+		try{
+			var obj = $.parseJSON($.trim(data.replace(/\'/g, '"')));
+		}catch(e){};
+		
 		return obj;
 	};
 	U.cssfix = (function() {

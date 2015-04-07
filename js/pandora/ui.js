@@ -5,11 +5,13 @@ Pandora.open([
 	'utilities',
 	'save'
 ], function($, S, getContext, Utils, Save) {
+
 	'use strict';
 
-	var loadedPrettify = false,
-		initFunctions = {
-			inputNumber: function(ctx) {
+
+	var UI = {
+		inputNumber: {
+			init: function(ctx) {
 				$(ctx + 'input[type="number"]').not('.rendered').each(function() {
 					var $this = $(this).addClass('rendered'),
 						$cont = $('<div class="button-number-cont"></div>'),
@@ -42,27 +44,34 @@ Pandora.open([
 						changeNumValue(1);
 					});
 				});
-			},
-			pre: function(ctx) {
-				var somePre = false;
-				$(ctx + 'pre').not('.no-print').each(function() {
-					var $this = $(this).addClass('prettyprint');
-					$this.text($this.html());
-					somePre = true;
-				});
-				if (somePre) {
-					if (!loadedPrettify) {
-						$.getScript('//google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert', function() {
-							loadedPrettify = true;
-							//prettyPrint();
-						});
-						/*'//google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert'*/
-					} else {
-						prettyPrint();
+			}
+		},
+		prettyfy: (function() {
+			var loadedPrettify = false;
+			return {
+				init: function(ctx) {
+					var somePre = false;
+					$(ctx + 'pre').not('.no-print').each(function() {
+						var $this = $(this).addClass('prettyprint');
+						$this.text($this.html());
+						somePre = true;
+					});
+					if (somePre) {
+						if (!loadedPrettify) {
+							$.getScript('//google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert', function() {
+								loadedPrettify = true;
+								//prettyPrint();
+							});
+							/*'//google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert'*/
+						} else {
+							prettyPrint();
+						}
 					}
 				}
-			},
-			dropdown: function(ctx) {
+			};
+		})(),
+		dropdown: {
+			init: function(ctx) {
 				$(ctx + 'select.dropdown').each(function() {
 					var $select = $(this).removeClass('dropdown').hide(),
 						$options = $select.find('option'),
@@ -125,15 +134,7 @@ Pandora.open([
 				});
 			}
 		},
-		select = function(ctx) {
-			var context = getContext(ctx);
-			for (var a in this.initFunctions) {
-				if (typeof this.initFunctions[a] === 'function') {
-					this.initFunctions[a].apply(null, [context]);
-				}
-			}
-		},
-		modal = (function() {
+		modal: (function() {
 			var rendered = false,
 				cfg = {
 					timeToShow: 300,
@@ -259,36 +260,36 @@ Pandora.open([
 					return this;
 				};
 
-			initFunctions.modal = function() {
-				if (!rendered) {
-					rendered = true;
-					$dimmer = $('<div id="dimmer" class="dimmer" style="display:none"></div>').appendTo('body');
-					$modal = $('<div id="modal" class="modal" style="display:none"></div>').appendTo('body');
-					$modalScroller = $('<div id="modal-scroller" class="modal-scroller"></div>').appendTo($modal);
-					$modalContent = $('<div id="modal-content" class="modal-content"></div>').appendTo($modalScroller);
-					$modalCloser = $('<div id="modal-closer" class="button secondary smallest modal-closer">X</div>').appendTo($modal);
-					$ctrls = $('<div id="modal-ctrls" class="modal-ctrls"></div>').appendTo($modal);
-
-					$toShow = $modal.add($dimmer);
-
-					setTimeout(function() {
-						setPosition();
-					}, 100);
-
-					S.$window.resize(function() {
-						setPosition();
-					});
-					$modalCloser.click(function() {
-						hide();
-					});
-					$dimmer.click(function() {
-						if (cfg.closeOnClickDimmer) {
-							hide();
-						}
-					});
-				}
-			};
 			return {
+				init: function() {
+					if (!rendered) {
+						rendered = true;
+						$dimmer = $('<div id="dimmer" class="dimmer" style="display:none"></div>').appendTo('body');
+						$modal = $('<div id="modal" class="modal" style="display:none"></div>').appendTo('body');
+						$modalScroller = $('<div id="modal-scroller" class="modal-scroller"></div>').appendTo($modal);
+						$modalContent = $('<div id="modal-content" class="modal-content"></div>').appendTo($modalScroller);
+						$modalCloser = $('<div id="modal-closer" class="button secondary smallest modal-closer">X</div>').appendTo($modal);
+						$ctrls = $('<div id="modal-ctrls" class="modal-ctrls"></div>').appendTo($modal);
+
+						$toShow = $modal.add($dimmer);
+
+						setTimeout(function() {
+							setPosition();
+						}, 100);
+
+						S.$window.resize(function() {
+							setPosition();
+						});
+						$modalCloser.click(function() {
+							hide();
+						});
+						$dimmer.click(function() {
+							if (cfg.closeOnClickDimmer) {
+								hide();
+							}
+						});
+					}
+				},
 				config: function(options) {
 					cfg = $.extend(cfg, options);
 					return this;
@@ -309,7 +310,7 @@ Pandora.open([
 			};
 		})(),
 
-		tabs = (function() {
+		tabs: (function() {
 
 			var ctx = '',
 				cfg = {
@@ -344,23 +345,34 @@ Pandora.open([
 					});
 				};
 
-			initFunctions.tabs = function(context) {
-				ctx = context;
-				render();
-			};
 			return {
+				init: function(context) {
+					ctx = context;
+					render();
+				},
 				config: function(options) {
 					cfg = $.extend(cfg, options);
 					render();
 				}
 			};
-		})();
+		})(),
 
+		// Select
+		select: function(ctx) {
+			var context = getContext(ctx);
+			for (var a in this) {
+				if (typeof this[a].init === 'function') {
+					this[a].init(context);
+				}
+			}
+		},
+	};
+	/*
 
-	Save('ui', {
-		initFunctions: initFunctions,
-		select: select,
-		modal: modal,
-		tabs: tabs
-	});
+		var 
+
+			;
+
+	*/
+	Save('ui', UI);
 });
