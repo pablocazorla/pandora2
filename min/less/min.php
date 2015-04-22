@@ -1,4 +1,94 @@
-/* Basics *************************************************/
+<?php if(extension_loaded("zlib")){ob_start("ob_gzhandler");} header("Content-type: text/less"); ?>/* RESET */html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul,menu{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+/* NORMALIZE */article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden],template{display:none}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}a{background:transparent}a:focus{outline:thin dotted}a:active,a:hover{outline:0}h1{font-size:2em;margin:0.67em 0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}mark{background:#ff0;color:#000}code,kbd,pre,samp{font-family:monospace,serif;font-size:1em}pre{white-space:pre-wrap}q{quotes:"\201C" "\201D" "\2018" "\2019"}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:0}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:0.35em 0.625em 0.75em}legend{border:0;padding:0}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}button,input{line-height:normal}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}*:focus {outline: 0}/*RESET*/html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul,menu{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}*, *:before, *:after {-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+/* Clearfix */
+.clearfix:before,
+.clearfix:after{content:"";display:table}
+.clearfix:after{clear:both}
+.clearfix{zoom:1}// Colors
+@fontColor: #444;
+@fontColor2: #111;
+@foregroundColor: #02A200;// Buttons and links
+@foregroundColor2: #999;
+@backgroundColor: #FFF; // Boxes
+@backgroundColor2: #DDD; // Body
+@borderColor: #CCC;
+@invertColor:#FFF;
+@errorColor:#D00;
+@linkColor: @foregroundColor;
+
+// Font Families
+@fontFamily:'Roboto',sans-serif;
+@fontFamily2:'Roboto Slab', serif;
+@fontMonospace: monospace;
+
+// Font Sizes
+@fontSize: 16px;
+@lineHeight:1.4em;
+@marginBottom:1.3 * @fontSize;
+.fontTitles(@num){
+	font-family: @fontFamily2;
+	font-size: 0.8 * @fontSize + ((@num / 6) * (@num / 6) * (@num / 6) * 2.2 * @fontSize);
+	line-height: @lineHeight;
+	margin-bottom: @marginBottom;
+	color:@fontColor2;
+	padding-top: 0.5 * @marginBottom;
+}
+
+// Inputs
+@inputPadding: .4em;
+@inputPadding2: 1em;
+@inputLineHeight: 1.618em;
+@inputBorderRadius:2px;
+
+// Buttons
+@buttonColor:@foregroundColor;// Like links and inputs
+@buttonSecondaryColor: #BBB;
+@buttonAltColor: #FF9000;
+@buttonWarningColor: #F8B70A;
+@buttonDangerColor: #FF3819;
+@buttonInfoColor: #2897FF;
+@buttonBorderRadius:4px;
+
+// grid system
+@columnMargin:40px;
+
+
+@media screen and (min-width: 1028px) {
+	@columnMargin:5px;
+}
+
+
+
+
+// lists
+@ulStyle: disc;
+@ulStyle2: circle;
+@ulStyle3: square;
+
+@olStyle: decimal;
+@olStyle2: lower-alpha;
+@olStyle3: lower-roman;
+
+// table
+@paddingTd:1em 2em;
+@paddingFoot:0.7em 2em;
+
+// Pre
+@paddingPre:1em;
+
+// Modal
+@dimmerBackground: rgba(100,100,100,.5);
+@modalPadding:30px;
+@modalBackground:#FFF;
+@modalBorderRadius:4px;
+@modalShadow:0 2px 3px rgba(0,0,0,.2);
+
+// Tabs
+@tabShadowActive:none;
+@tabShadowInactive:inset 0 -2px 1px rgba(0,0,0,.1);
+@tabBorderRadius:4px 4px 0 0;
+@tabHeight:40px;
+@tabPadding: 0 @inputPadding2;/* Basics *************************************************/
 body{
 	font-family: @fontFamily;
 	font-size: @fontSize;	
@@ -789,4 +879,92 @@ input[type="datetime-local"]{
 
 .tabs-container.rendered .tabs{
 	display: block;
+}// Paper
+@paperPadding: 3%;
+@paperUpShadow:0 2px 3px rgba(0,0,0,.2);
+@paperDownShadow: inset 0 1px 3px rgba(0,0,0,.2);
+@paperBorderRadius:5px;
+.paper{
+	background-color: @backgroundColor;
+	border:solid 1px @borderColor;
+	padding:@paperPadding;
+	margin-bottom: 1.5 *@marginBottom;
+	position: relative;
 }
+.paper.up{
+	box-shadow: @paperUpShadow;
+}
+.paper.down{
+	box-shadow: @paperDownShadow;
+}
+.paper.round{
+	border-radius: @paperBorderRadius;
+}/* Common *************************************************/
+.page{
+	margin-top: 30px;
+}
+
+.presentation{
+	background-color: #EEE;
+	border: solid 1px #DDD;
+	text-align: center;
+	padding: 20px;
+	margin-bottom: 30px;
+	min-height: 400px;
+}
+
+/* Components **************************************************/
+
+/* index */
+
+/* softlight */
+.softlight-page .presentation{
+	padding: 200px 20px;
+}
+.box-softlight{
+	background: #AAA;
+	height: 250px;
+	margin-bottom: 30px;
+}
+
+.xsoftlight{
+	opacity: 0;
+}
+
+/* parallax */
+.col-midd{
+	border: solid 1px #F00;
+	height:360px;
+	float: left;
+	width:50%;
+}
+.col-midd.g1{background-color: #F00}
+.col-midd.g2{background-color: #0D0}
+.col-midd.g3{background-color: #090}
+.col-midd.g4{background-color: #009}
+.col-midd.g5{background-color: #099}
+.col-midd.g6{background-color: #990}
+
+/* loader */
+.main-container-loader{
+	min-height: 360px;border: solid 1px #CCC;background-color: #DDD;margin:20px 0;padding: 20px
+}
+.wrap-loader{
+	position:relative;
+}
+.dimmer-loader{
+	position: absolute;top: 0;left: 0;right: 0;bottom: 0;background-color: #333;
+	line-height: 200px;color: #FFF;text-align: center;display: none;
+}
+
+/* In order to show the grid system ****************/
+.col-content{
+	background-color: #DDD;
+	border: solid 1px #BBB;
+	border-radius: 2px;
+	line-height: 50px;
+	text-align: center;
+	margin-bottom: 1em;
+	overflow: hidden;
+}
+<?php if(extension_loaded("zlib")){ob_end_flush();}?>
